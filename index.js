@@ -19,13 +19,18 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.set('view engine', 'ejs');
 app.use(cookieParser())
 
+app.set('views', path.join(__dirname, 'views'));
+
 db().catch(err => {
     console.error("MongoDB connection error:", err);
     process.exit(1);
 })
 
 app.get('/', isLoggedIn, async(req, res) => {
-    const posts = await Post.find().lean().sort({ createdAt: -1 });
+    const posts = await Post.find()
+    .sort({ createdAt: -1 })
+    .populate("user")
+    .lean();
     res.render('index',{posts:posts,user:req.user})
 })
 
@@ -188,4 +193,9 @@ app.post('/update/:id', isLoggedIn, async (req, res) => {
     res.redirect('/profile');
 });
 
-app.listen(3000)
+const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+
+export default app;  
