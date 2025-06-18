@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload Profile Picture</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 min-h-screen">
+  
+  <!-- Upload Form -->
+  <div class="flex items-center justify-center py-12 px-4">
+    <div class="bg-gray-800 p-8 rounded-xl shadow-xl w-full max-w-md">
+      <h2 class="text-2xl font-bold text-white mb-6 text-center">Upload Profile Picture</h2>
+      <form action="/upload" method="POST" enctype="multipart/form-data" class="space-y-6">
+        <div class="flex flex-col items-center">
+          <div class="w-32 h-32 rounded-full bg-gray-700 flex items-center justify-center overflow-hidden mb-4">
+            <img id="preview" src="https://via.placeholder.com/128" alt="Preview" class="w-full h-full object-cover hidden">
+            <span id="placeholder" class="text-gray-400 text-sm">No Image</span>
+          </div>
+          <label class="block w-full">
+            <span class="sr-only">Choose profile picture</span>
+            <input 
+              type="file" 
+              name="image" 
+              accept="image/*" 
+              class="block w-full text-sm text-gray-300
+                     file:mr-4 file:py-2 file:px-4
+                     file:rounded-lg file:border-0
+                     file:text-sm file:font-semibold
+                     file:bg-teal-600 file:text-white
+                     file:hover:bg-teal-700
+                     file:cursor-pointer"
+              onchange="previewImage(event)"
+            />
+          </label>
+        </div>
+        <button 
+          type="submit" 
+          class="w-full py-3 bg-teal-500 text-white font-semibold rounded-lg hover:bg-teal-600 transition-colors duration-200"
+        >
+          Upload
+        </button>
+      </form>
+
+      <!-- Back to Dashboard Button -->
+      <a 
+        href="/profile" 
+        class="block mt-6 text-center py-3 bg-gray-700 text-white font-semibold rounded-lg hover:bg-gray-600 transition-colors duration-200"
+      >
+        ← Back to Dashboard
+      </a>
+    </div>
+  </div>
+
+  <script>
+    function previewImage(event) {
+      const preview = document.getElementById('preview');
+      const placeholder = document.getElementById('placeholder');
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.classList.remove('hidden');
+          placeholder.classList.add('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  </script>
+</body>
+</html>

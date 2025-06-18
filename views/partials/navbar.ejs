@@ -1,0 +1,13 @@
+<nav class="bg-gray-800 text-white py-4 px-6 flex justify-between items-center shadow-md">
+  <div class="text-xl font-bold tracking-wide text-teal-400">
+    <a href="/">MRS Blog</a>
+  </div>
+  <div class="space-x-6 flex items-center">
+    <% if (user) { %>
+      <a href="/profile" class="hover:text-teal-300 transition">Profile</a>
+      <a href="/logout" class="bg-teal-600 px-4 py-2 rounded hover:bg-teal-700 transition">Logout</a>
+    <% } else { %>
+      <a href="/login" class="bg-teal-600 px-4 py-2 rounded hover:bg-teal-700 transition">Login</a>
+    <% } %>
+  </div>
+</nav>
